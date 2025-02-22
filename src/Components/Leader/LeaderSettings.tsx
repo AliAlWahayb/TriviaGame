@@ -145,7 +145,7 @@ const LeaderSettingsPage: React.FC = () => {
             ? `Edit ${selectedPlayer.name}'s Score`
             : "Set Max Score"}
         </DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{ minWidth: 300 }}>
           <TextField
             autoFocus
             margin="dense"
@@ -153,6 +153,7 @@ const LeaderSettingsPage: React.FC = () => {
             type="number"
             fullWidth
             variant="standard"
+            sx={{ input: { color: 'black' } }}
             value={newScore}
             onChange={(e) => setNewScore(e.target.value)}
           />

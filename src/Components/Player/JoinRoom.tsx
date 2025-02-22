@@ -63,7 +63,8 @@ function JoinRoom() {
           variant="outlined"
           value={formData.name}
           onChange={handleInputChange}
-          inputProps={{ maxLength: 20 }}
+          sx={{ input: { color: 'black' } }}
+          slotProps={{ htmlInput: { maxLength: 12 } }}
         />
 
         <TextField
@@ -74,10 +75,8 @@ function JoinRoom() {
           variant="outlined"
           value={formData.roomCode}
           onChange={handleInputChange}
-          inputProps={{ 
-            maxLength: 4,
-            style: { textTransform: "uppercase" }
-          }}
+          sx={{ input: { color: 'black' } }}
+          slotProps={{ htmlInput: { maxLength: 4 } }}
         />
 
         <Box sx={{ 

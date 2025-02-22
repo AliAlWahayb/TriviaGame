@@ -28,7 +28,7 @@ function App() {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            height: "90vh",
+            height: "100vh",
             textAlign: "center",
             "& > *": {
               m: 1,
@@ -39,7 +39,7 @@ function App() {
             variant="h2"
             sx={{
               fontWeight: "bold",
-              color: "text.primary",
+              color: "secondary.main",
               textAlign: "center",
             }}
             gutterBottom
@@ -52,7 +52,7 @@ function App() {
                 color: "primary.main",
                 textAlign: "center",
               }}
-              gutterBottom
+              
             >
               Game
             </Typography>

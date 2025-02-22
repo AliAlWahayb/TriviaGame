@@ -39,14 +39,15 @@ const PlayerView: React.FC = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        height: "100vh",
+        height: "95vh",
         backgroundColor: theme.palette.background.default,
         color: theme.palette.text.primary,
       }}
     >
-      <Box sx={{ my: 2, display: "flex", flexDirection: "row", gap: 5 }}>
+      <Box sx={{ p: 2, display: "flex", gap: 5 }}>
         <Typography
           sx={{ alignContent: "center" }}
+          align="center"
           variant="h6"
           color="primary"
         >
@@ -54,6 +55,7 @@ const PlayerView: React.FC = () => {
         </Typography>
         <Typography
           sx={{ alignContent: "center" }}
+          align="center"
           variant="h6"
           color="primary"
         >
@@ -61,6 +63,7 @@ const PlayerView: React.FC = () => {
         </Typography>
         <Typography
           sx={{ alignContent: "center" }}
+          align="center"
           variant="h6"
           color="primary"
         >
@@ -83,18 +86,18 @@ const PlayerView: React.FC = () => {
 
       {/* Leave Dialog */}
       <Dialog open={openLeaveDialog} onClose={() => setOpenLeaveDialog(false)}>
-        <DialogTitle color="warning">
+        <DialogTitle color="primary">
           Are you sure you want to leave?
         </DialogTitle>
         <DialogActions sx={{ justifyContent: "center" }}>
           <Button
-            color="success"
-            variant="contained"
+            variant="outlined"
+            color="secondary"
             onClick={() => setOpenLeaveDialog(false)}
           >
             Cancel
           </Button>{" "}
-          <Button color="error" variant="contained" onClick={handleLeave}>
+          <Button variant="contained" color="primary" onClick={handleLeave}>
             Confirm
           </Button>
         </DialogActions>

@@ -32,7 +32,7 @@ function CreateRoomPage() {
 
   function generateRoomCode(length = 4) {
     const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      "abcdefghijklmnopqrstuvwxyz";
     let roomCode = "";
     for (let i = 0; i < length; i++) {
       roomCode += characters.charAt(
@@ -85,6 +85,7 @@ function CreateRoomPage() {
             value={roomSettings.numQuestions}
             onChange={handleInputChange}
             name="numQuestions"
+            sx={{ input: { color: 'black' } }}
             slotProps={{
               inputLabel: {
                 shrink: true,
@@ -109,6 +110,7 @@ function CreateRoomPage() {
             value={roomSettings.gameTime}
             onChange={handleInputChange}
             name="gameTime"
+            sx={{ input: { color: 'black' } }}
             slotProps={{
               inputLabel: {
                 shrink: true,
