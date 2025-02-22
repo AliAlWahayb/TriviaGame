@@ -17,43 +17,29 @@ import {
 } from "@mui/material";
 import { Delete, Edit, ExitToApp, ArrowBack } from "@mui/icons-material";
 
-interface Player {
-  id: string;
-  name: string;
-  score: number;
-}
+const leaderboard = [
+  { id: "1", name: "Alice", score: 45 },
+  { id: "2", name: "Bob", score: 30 },
+  { id: "3", name: "Charlie", score: 25 },
+];
 
 const LeaderSettingsPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const [players, setPlayers] = useState<Player[]>([
-    { id: "1", name: "Alice", score: 45 },
-    { id: "2", name: "Bob", score: 30 },
-    { id: "3", name: "Charlie", score: 25 },
-  ]);
-
-  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
   const [newScore, setNewScore] = useState("");
+  const [selectedPlayer, setSelectedPlayer] = useState<
+    (typeof leaderboard)[0] | null
+  >(null);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openEndDialog, setOpenEndDialog] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
 
   const handleKickPlayer = (playerId: string) => {
-    setPlayers((prev) => prev.filter((p) => p.id !== playerId));
     setFeedback("Player kicked successfully");
   };
 
   const handleEditScore = () => {
-    if (!selectedPlayer || !newScore) return;
-
-    setPlayers((prev) =>
-      prev.map((p) =>
-        p.id === selectedPlayer.id ? { ...p, score: Number(newScore) } : p
-      )
-    );
-
     setOpenEditDialog(false);
-    setNewScore("");
     setFeedback("Score updated successfully");
   };
 
@@ -84,9 +70,9 @@ const LeaderSettingsPage: React.FC = () => {
       {/* Player List */}
       <List sx={{ mb: 3 }}>
         <Typography variant="h6" gutterBottom>
-          Players ({players.length})
+          Players ({leaderboard.length})
         </Typography>
-        {players.map((player) => (
+        {leaderboard.map((player) => (
           <ListItem
             key={player.id}
             secondaryAction={
@@ -153,7 +139,7 @@ const LeaderSettingsPage: React.FC = () => {
             type="number"
             fullWidth
             variant="standard"
-            sx={{ input: { color: 'black' } }}
+            sx={{ input: { color: "black" } }}
             value={newScore}
             onChange={(e) => setNewScore(e.target.value)}
           />
@@ -165,17 +151,32 @@ const LeaderSettingsPage: React.FC = () => {
       </Dialog>
 
       {/* End Room Dialog */}
-      <Dialog open={openEndDialog} onClose={() => setOpenEndDialog(false)} maxWidth="sm">
+      <Dialog
+        open={openEndDialog}
+        onClose={() => setOpenEndDialog(false)}
+        maxWidth="sm"
+      >
         <DialogTitle color="error">Game Ended</DialogTitle>
         <DialogContent>
-          <Typography variant="body1" sx={{ mb: 2 }} color="primary" align="center">
+          <Typography
+            variant="body1"
+            sx={{ mb: 2 }}
+            color="primary"
+            align="center"
+          >
             The Winner is:
             <br />
-            {players.find((p) => p.score === Math.max(...players.map((p) => p.score)))?.name}
+            {
+              leaderboard.find(
+                (p) => p.score === Math.max(...leaderboard.map((p) => p.score))
+              )?.name
+            }
           </Typography>
         </DialogContent>
         <DialogActions sx={{ justifyContent: "center" }}>
-          <Button color="primary" variant="contained" onClick={handleHome}>Home Page</Button>
+          <Button color="primary" variant="contained" onClick={handleHome}>
+            Home Page
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>

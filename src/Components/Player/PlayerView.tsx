@@ -15,17 +15,17 @@ import { useNavigate } from "react-router-dom";
 const PlayerView: React.FC = () => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const [playerState, setPlayerState] = React.useState({
+  const playerState = {
     name: "John Doe",
     score: 0,
     isInQueue: false,
-    queuePosition: 0,
-  });
+    queuePosition: 1,
+  };
 
   const [openLeaveDialog, setOpenLeaveDialog] = useState(false);
 
   const handleQueueToggle = () => {
-    setPlayerState((prev) => ({ ...prev, isInQueue: true }));
+    playerState.isInQueue = !playerState.isInQueue;
   };
 
   const handleLeave = () => {
@@ -67,7 +67,7 @@ const PlayerView: React.FC = () => {
           variant="h6"
           color="primary"
         >
-          Queue Position: {playerState.queuePosition}
+          Queue Position: {playerState.queuePosition || "N/A"}
         </Typography>
         <IconButton color="primary" onClick={() => setOpenLeaveDialog(true)}>
           <ExitToAppIcon />

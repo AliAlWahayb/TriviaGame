@@ -11,91 +11,45 @@ import {
 import { useParams } from "react-router-dom";
 import SettingsIcon from "@mui/icons-material/Settings";
 
-interface Player {
-  id: string;
-  name: string;
-  score: number;
-}
+const leaderboard = [
+  { id: "1", name: "Alice", score: 45 },
+  { id: "2", name: "Bob", score: 30 },
+  { id: "3", name: "Charlie", score: 25 },
+];
+const gameData = {
+  question: "What is the capital of France?",
+  answer: "Paris",
+};
 
-interface GameData {
-  question: string;
-  activePlayer: Player | null;
-  queue: Player[];
-  timer: number;
-}
+const Queue = [
+  { id: "1", name: "Alice", score: 45 },
+  { id: "2", name: "Bob", score: 30 },
+  { id: "3", name: "Charlie", score: 25 },
+];
 
 const LeaderPage: React.FC = () => {
   const navigate = useNavigate();
-  
 
   const { roomCode } = useParams<{ roomCode: string }>();
   const theme = useTheme();
 
-  const [leaderboard, setLeaderboard] = useState<Player[]>([
-    { id: "1", name: "Alice", score: 30 },
-    { id: "2", name: "Bob", score: 20 },
-    { id: "3", name: "Charlie", score: 10 },
-  ]);
-
-  const [gameData, setGameData] = useState<GameData>({
-    question:
-      "What is the capital of FranceWhat is the capital of FranceWhat is the capital of FranceWhat is the capital of France?",
-    activePlayer: { id: "2", name: "Bob", score: 20 },
-    queue: [
-      { id: "3", name: "Charlie", score: 10 },
-      { id: "1", name: "Alice", score: 30 },
-    ],
-    timer: 10,
-  });
-
-  const [timeLeft, setTimeLeft] = useState<number>(10);
-
-  useEffect(() => {
-    if (timeLeft > 0) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-      return () => clearTimeout(timer);
-    } else {
-      skipPlayer();
-    }
-  }, [timeLeft]);
-
-  const skipPlayer = () => {
-    if (gameData.queue.length > 0) {
-      const nextPlayer = gameData.queue[0];
-      setGameData((prev) => ({
-        ...prev,
-        activePlayer: nextPlayer,
-        queue: prev.queue.slice(1),
-        timer: 10,
-      }));
-      setTimeLeft(10);
-    }
-  };
-
-  const correctAnswer = () => {
-    if (gameData.activePlayer) {
-      setLeaderboard((prev) =>
-        prev.map((p) =>
-          p.id === gameData.activePlayer?.id ? { ...p, score: p.score + 10 } : p
-        )
-      );
-      skipPlayer();
-    }
-  };
-
-  const skipQuestion = () => {
-    setGameData({
-      question: "New Random Question?",
-      activePlayer: null,
-      queue: [],
-      timer: 10,
-    });
-    setTimeLeft(10);
-  };
-
   const handleSettingsOpen = () => {
     navigate(`/room/${roomCode}/LeaderSettings`);
   };
+
+  const skipQuestion = () => {
+    alert("Question skipped.");
+  };
+
+  const skipPlayer = () => {
+    alert("Player skipped.");
+  };
+
+  const correctAnswer = () => {
+    alert("Correct answer!");
+  };
+
+  const timeLeft = 30;
 
   return (
     <Box
@@ -174,6 +128,9 @@ const LeaderPage: React.FC = () => {
         <Typography variant="h5" sx={{ mb: 2, fontWeight: 700 }}>
           {gameData.question}
         </Typography>
+        <Typography variant="h6" sx={{ mb: 2, fontWeight: 700 }}>
+          {gameData.answer}
+        </Typography>
 
         <Box sx={{ position: "relative", display: "inline-flex", mb: 1 }}>
           <CircularProgress
@@ -201,11 +158,11 @@ const LeaderPage: React.FC = () => {
           </Box>
         </Box>
 
-        {gameData.activePlayer && (
+        {Queue.length > 0 && (
           <Typography variant="h5" sx={{ mb: 4 }}>
             Now Answering:{" "}
             <Box component="span" color="primary.main">
-              {gameData.activePlayer.name}
+              {Queue[0].name}
             </Box>
           </Typography>
         )}
@@ -247,8 +204,8 @@ const LeaderPage: React.FC = () => {
           Answer Queue
         </Typography>
         <Box sx={{ flex: 1, overflow: "auto" }}>
-          {gameData.queue.length > 0 ? (
-            gameData.queue.map((player, index) => (
+          {Queue.length > 0 ? (
+            Queue.map((player, index) => (
               <Box
                 key={index}
                 sx={{
