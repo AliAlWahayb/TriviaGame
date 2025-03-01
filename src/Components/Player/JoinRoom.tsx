@@ -1,6 +1,10 @@
 import { Box, Typography, Button, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import React from "react";
+import {
+  getPlayers,
+  PlayerJoinRoom
+} from "../../api/player";
 
 function JoinRoom() {
   const navigate = useNavigate();
@@ -20,6 +24,7 @@ function JoinRoom() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.roomCode && formData.name) {
+      PlayerJoinRoom(formData.roomCode, formData.name);
       navigate(`/player/${formData.roomCode}`);
     }
   };

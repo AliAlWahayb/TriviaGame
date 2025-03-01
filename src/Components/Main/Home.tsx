@@ -3,10 +3,16 @@ import Box from "@mui/material/Box";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import DoorFrontIcon from "@mui/icons-material/DoorFront";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { signup }  from "../../supabase";
 
 
 
 function App() {
+
+  useEffect(() => {
+    signup();
+  } , []);
   const navigate = useNavigate();
 
   const handleCreateRoom = () => {

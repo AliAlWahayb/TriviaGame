@@ -2,6 +2,7 @@
 import { Box, Typography, Button, TextField, Switch } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import React from "react";
+import { CreateRoom } from "../../api/admin";
 
 function CreateRoomPage() {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ function CreateRoomPage() {
   }
 
   const handleRoom = () => {
+    CreateRoom(roomSettings.roomCode);
     navigate(`/room/${roomSettings.roomCode}`);
   };
 

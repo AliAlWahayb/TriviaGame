@@ -10,15 +10,22 @@ import {
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import SettingsIcon from "@mui/icons-material/Settings";
+import {
+  getQuestions,
+  SubscribeToRoom,
+  test,
+  UnsubscribeFromRoom,
+} from "../../api/admin";
 
 const leaderboard = [
   { id: "1", name: "Alice", score: 45 },
   { id: "2", name: "Bob", score: 30 },
   { id: "3", name: "Charlie", score: 25 },
 ];
-const gameData = {
-  question: "What is the capital of France?",
-  answer: "Paris",
+type gameData = {
+  id: number;
+  question: string;
+  answer: string;
 };
 
 const Queue = [
@@ -30,18 +37,53 @@ const Queue = [
 const LeaderPage: React.FC = () => {
   const navigate = useNavigate();
 
+  const [gameData, setGameData] = useState<gameData | null>(null);
+
   const { roomCode } = useParams<{ roomCode: string }>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [roomData, setRoomData] = useState<any[]>([]);
+
   const theme = useTheme();
+
+  useEffect(() => {
+    getQuestions().then((question) => {
+      if (question) {
+        setGameData(question);
+      } else {
+        console.error("Failed to retrieve question");
+      }
+    });
+
+    // Subscribe to room updates
+    const channel = SubscribeToRoom(roomCode, (payload) => {
+      console.log("Room update received:", payload);
+
+      // Update state with new data
+      setRoomData((prevMessages) => [...prevMessages, payload.new]);
+    });
+
+    // Cleanup: Unsubscribe when component unmounts
+    return () => {
+      UnsubscribeFromRoom(channel);
+    };
+  }, [roomCode]); // Runs only when roomCode changes
 
   const handleSettingsOpen = () => {
     navigate(`/room/${roomCode}/LeaderSettings`);
   };
 
   const skipQuestion = () => {
-    alert("Question skipped.");
+    getQuestions().then((question) => {
+      if (question) {
+        setGameData(question);
+      } else {
+        console.error("Failed to retrieve question");
+      }
+    });
   };
 
   const skipPlayer = () => {
+    test();
     alert("Player skipped.");
   };
 
@@ -126,10 +168,10 @@ const LeaderPage: React.FC = () => {
         }}
       >
         <Typography variant="h5" sx={{ mb: 2, fontWeight: 700 }}>
-          {gameData.question}
+          {gameData?.question}
         </Typography>
         <Typography variant="h6" sx={{ mb: 2, fontWeight: 700 }}>
-          {gameData.answer}
+          {gameData?.answer}
         </Typography>
 
         <Box sx={{ position: "relative", display: "inline-flex", mb: 1 }}>
